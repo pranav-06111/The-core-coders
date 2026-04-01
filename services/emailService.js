@@ -1,0 +1,48 @@
+const nodemailer = require('nodemailer');
+
+// Setup Ethereal Email for testing
+let transporter;
+
+async function setupTransporter() {
+    try {
+        let testAccount = await nodemailer.createTestAccount();
+        transporter = nodemailer.createTransport({
+            host: testAccount.smtp.host,
+            port: testAccount.smtp.port,
+            secure: testAccount.smtp.secure,
+            auth: {
+                user: testAccount.user,
+                pass: testAccount.pass,
+            },
+        });
+        console.log('Ethereal email test account configured.');
+    } catch (err) {
+        console.error('Failed to configure email test account', err);
+    }
+}
+
+setupTransporter();
+
+async function sendAppointmentConfirmationEmail(patientEmail, doctorName, date, time) {
+    if (!transporter) return;
+    try {
+        let info = await transporter.sendMail({
+            from: '"MedConnect" <no-reply@medconnect.local>',
+            to: patientEmail,
+            subject: 'Appointment Confirmed - MedConnect',
+            text: `Your appointment with ${doctorName} is confirmed for ${date} at ${time}.`,
+            html: `<p>Your appointment with <strong>${doctorName}</strong> is confirmed for <strong>${date}</strong> at <strong>${time}</strong>.</p>
+                   <p>Please join via the dashboard 5 minutes before the scheduled time.</p>
+                   <p>Thank you for using MedConnect!</p>`,
+        });
+
+        console.log('Confirmation email sent. Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        return info;
+    } catch (error) {
+        console.error('Error sending confirmation email:', error);
+    }
+}
+
+module.exports = {
+    sendAppointmentConfirmationEmail
+};

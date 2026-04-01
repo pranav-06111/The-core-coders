@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedConnect — Find Your Doctor In Minutes</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     LANDING PAGE
+═══════════════════════════════════ -->
+<div id="page-landing" class="page active">
+  <nav class="lnav">
+    <div class="logo" onclick="go('landing')">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+      MedConnect
+    </div>
+    <div class="lnav-links">
+      <a onclick="document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'})">Features</a>
+      <a onclick="document.getElementById('lhow').scrollIntoView({behavior:'smooth'})">How It Works</a>
+      <a onclick="document.getElementById('ltestimonials').scrollIntoView({behavior:'smooth'})">Testimonials</a>
+    </div>
+    <div class="lnav-btns">
+      <button class="btn-ghost" onclick="go('signin')">Sign In</button>
+      <button class="btn-teal" onclick="go('signup')">Get Started Free</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>Find Your Doctor<br><span class="accent">In Minutes</span></h1>
+      <p>Skip the waiting rooms. Connect with verified doctors instantly for remote consultations, anytime, anywhere.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="go('signup')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          I'm a Patient
+        </button>
+        <button class="btn-outline" onclick="go('signup')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          I'm a Doctor
+        </button>
+      </div>
+      <div class="social-proof">
+        <div class="avatars">
+          <span style="background:#3B82F6">A</span><span style="background:#8B5CF6">S</span>
+          <span style="background:#EC4899">M</span><span style="background:#10B981">+</span>
+        </div>
+        <p><strong>10,000+ Users</strong> Trust MedConnect daily</p>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="video-badge">
+          <div class="video-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2" width="18" height="18"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div>
+          <div class="video-badge-text"><strong>Video Call</strong><span><span class="live-dot"></span>Live Now</span></div>
+        </div>
+        <div class="hero-center-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="rating-badge">⭐ 4.9/5 Rating</div>
+        <div class="doctor-badge">
+          <div class="doctor-badge-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><strong>Verified Doctor</strong><p>Dr. Sarah M.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><h3>10K+</h3><p>Active Patients</p></div>
+    <div class="stat"><h3>500+</h3><p>Verified Doctors</p></div>
+    <div class="stat"><h3>&lt;5 min</h3><p>Avg. Wait Time</p></div>
+    <div class="stat"><h3>4.9★</h3><p>User Rating</p></div>
+  </div>
+
+  <div class="features-section" id="lfeatures">
+    <div style="text-align:center;max-width:600px;margin:0 auto 8px">
+      <p class="section-tag">Why MedConnect</p>
+      <h2 class="section-title">Healthcare reimagined for the digital age</h2>
+      <p class="section-sub">Everything you need for modern healthcare, in one seamless platform.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Instant Availability</h3><p>See real-time availability and connect with a doctor in under 5 minutes — no appointments needed.</p></div>
+      <div class="feature-card"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Verified Doctors</h3><p>All doctors are verified, licensed, and background-checked. Consult with complete confidence.</p></div>
+      <div class="feature-card"><div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div><h3>HD Video Consultations</h3><p>Crystal-clear video calls with end-to-end encryption. Your privacy is always protected.</p></div>
+      <div class="feature-card"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><h3>Digital Prescriptions</h3><p>Get prescriptions delivered digitally within minutes of your consultation. Pharmacy-ready.</p></div>
+      <div class="feature-card"><div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><h3>Smart Scheduling</h3><p>AI-powered scheduling that remembers your preferences and health history for future visits.</p></div>
+      <div class="feature-card"><div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>24/7 Access</h3><p>Healthcare doesn't stop at 5 PM. Access doctors round-the-clock, any day of the year.</p></div>
+    </div>
+  </div>
+
+  <div class="steps-section" id="lhow">
+    <div style="text-align:center;max-width:600px;margin:0 auto 8px">
+      <p class="section-tag">Simple Process</p>
+      <h2 class="section-title">How MedConnect Works</h2>
+      <p class="section-sub">From search to consultation in under 5 minutes — no paperwork, no waiting.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card" data-step="01"><div class="step-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>Search & Filter</h3><p>Browse verified doctors by specialty, availability, rating, or language. Find your perfect match.</p></div>
+      <div class="step-card" data-step="02"><div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><h3>Book Instantly</h3><p>Choose your preferred time slot and confirm in seconds. Instant confirmation to your email.</p></div>
+      <div class="step-card" data-step="03"><div class="step-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div><h3>Consult Remotely</h3><p>Connect via HD video call. Get prescriptions and follow-up care from the comfort of home.</p></div>
+    </div>
+  </div>
+
+  <div class="testimonials-section" id="ltestimonials">
+    <div style="text-align:center;max-width:600px;margin:0 auto 8px">
+      <p class="section-tag">What Patients Say</p>
+      <h2 class="section-title">Real Stories, Real Relief</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card"><div class="stars">★★★★★</div><p>"Connected to a cardiologist within 3 minutes at midnight. Absolute lifesaver — no other platform comes close!"</p><div class="reviewer"><div class="reviewer-avatar" style="background:#3B82F6">R</div><div class="reviewer-info"><strong>Rahul Sharma</strong><span>Bangalore</span></div></div></div>
+      <div class="testimonial-card"><div class="stars">★★★★★</div><p>"As someone with anxiety, visiting clinics was overwhelming. MedConnect let me consult from my bedroom. It changed everything."</p><div class="reviewer"><div class="reviewer-avatar" style="background:#8B5CF6">P</div><div class="reviewer-info"><strong>Priya Menon</strong><span>Chennai</span></div></div></div>
+      <div class="testimonial-card"><div class="stars">★★★★☆</div><p>"Digital prescription sent within minutes of the call. Perfect for my elderly parents who struggle to travel."</p><div class="reviewer"><div class="reviewer-avatar" style="background:#10B981">A</div><div class="reviewer-info"><strong>Ankit Patel</strong><span>Ahmedabad</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="cta-banner">
+    <h2>Start Your Healthcare Journey Today</h2>
+    <p>Join 10,000+ patients who trust MedConnect for instant, quality healthcare.</p>
+    <div class="cta-btns">
+      <button class="btn-white" onclick="go('signup')">Create Free Account</button>
+      <button class="btn-outline-white" onclick="go('signin')">Sign In</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="color:white"><div class="logo-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div> MedConnect</div>
+        <p>Instant, affordable healthcare for everyone. Connecting patients with verified doctors across India and beyond.</p>
+      </div>
+      <div class="footer-col"><h5>Product</h5><a>Features</a><a>Pricing</a><a>For Doctors</a><a>Enterprise</a></div>
+      <div class="footer-col"><h5>Company</h5><a>About Us</a><a>Blog</a><a>Careers</a><a>Press</a></div>
+      <div class="footer-col"><h5>Legal</h5><a>Privacy Policy</a><a>Terms of Service</a><a>HIPAA Compliance</a><a>Contact</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MedConnect. Built for hackathon.</p>
+      <p>Made with ❤️ in India</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════
+     SIGN IN PAGE
+═══════════════════════════════════ -->
+<div id="page-signin" class="page">
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <div class="logo" style="color:white;margin-bottom:36px" onclick="go('landing')">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+        MedConnect
+      </div>
+      <h2>Welcome back to<br><span>better healthcare</span></h2>
+      <p>Sign in to access your appointments, prescriptions, and connect with your doctors instantly.</p>
+    </div>
+    <div class="auth-features">
+      <div class="auth-feat"><div class="auth-feat-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><p>Connect with verified doctors instantly</p></div>
+      <div class="auth-feat"><div class="auth-feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div><p>HD video consultations from anywhere</p></div>
+      <div class="auth-feat"><div class="auth-feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><p>Your health data is always private & secure</p></div>
+    </div>
+    <div class="auth-stats">
+      <div class="auth-stat"><h4>10K+</h4><p>Patients served</p></div>
+      <div class="auth-stat"><h4>500+</h4><p>Doctors</p></div>
+      <div class="auth-stat"><h4>4.9★</h4><p>Rating</p></div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-box">
+      <button class="auth-back" onclick="go('landing')">← Back to home</button>
+      <div class="auth-box-header">
+        <h3>Sign in to MedConnect</h3>
+        <p>New here? <a onclick="go('signup')">Create a free account →</a></p>
+      </div>
+
+      <div class="role-tabs">
+        <button class="role-tab active" id="si-rtab-patient" onclick="setRole('patient');updateSigninLeft('patient')">🧑 Patient</button>
+        <button class="role-tab" id="si-rtab-doctor" onclick="setRole('doctor');updateSigninLeft('doctor')">👨‍⚕️ Doctor</button>
+      </div>
+
+      <button class="google-btn" onclick="googleAuth('signin')">
+        <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or sign in with email</span></div>
+
+      <div class="form-group"><label>Email address</label><input type="email" id="si-email" placeholder="you@example.com"></div>
+      <div class="form-group">
+        <div class="flex-between"><label>Password</label><button class="forgot-link">Forgot password?</button></div>
+        <div class="password-wrap"><input type="password" id="si-pw" placeholder="••••••••"><button class="toggle-pw" onclick="togglePw('si-pw',this)">Show</button></div>
+      </div>
+      <div class="form-check"><input type="checkbox" id="remember" checked><label for="remember">Keep me signed in for 30 days</label></div>
+      <button class="submit-btn" onclick="emailSignIn()">Sign In →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SIGN UP PAGE
+═══════════════════════════════════ -->
+<div id="page-signup" class="page">
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <div class="logo" style="color:white;margin-bottom:36px" onclick="go('landing')">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+        MedConnect
+      </div>
+      <h2>Join thousands getting<br><span>better care today</span></h2>
+      <p>Create your free account and get instant access to 500+ verified doctors across every specialty.</p>
+    </div>
+    <div class="auth-features">
+      <div class="auth-feat"><div class="auth-feat-icon"><svg viewBox="0 0 24 24"><path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z"/><path d="M8 12l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Free to sign up — no credit card required</p></div>
+      <div class="auth-feat"><div class="auth-feat-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><p>First consultation at ₹0 for new users</p></div>
+      <div class="auth-feat"><div class="auth-feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><p>HIPAA-compliant, end-to-end encrypted</p></div>
+    </div>
+    <div class="auth-stats">
+      <div class="auth-stat"><h4>Free</h4><p>To get started</p></div>
+      <div class="auth-stat"><h4>&lt;5 min</h4><p>Setup time</p></div>
+      <div class="auth-stat"><h4>24/7</h4><p>Support</p></div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-box">
+      <button class="auth-back" onclick="go('landing')">← Back to home</button>
+      <div class="auth-box-header">
+        <h3>Create your account</h3>
+        <p>Already have an account? <a onclick="go('signin')">Sign in →</a></p>
+      </div>
+
+      <div class="role-tabs">
+        <button class="role-tab active" id="rtab-patient" onclick="setRole('patient')">🧑 Patient</button>
+        <button class="role-tab" id="rtab-doctor" onclick="setRole('doctor')">👨‍⚕️ Doctor</button>
+      </div>
+
+      <button class="google-btn" onclick="googleAuth('signup')">
+        <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Sign up with Google
+      </button>
+      <div class="auth-divider"><span>or sign up with email</span></div>
+
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="su-fn" placeholder="Rahul"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="su-ln" placeholder="Sharma"></div>
+      </div>
+      <div class="form-group"><label>Email address</label><input type="email" id="su-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="su-phone" placeholder="+91 98765 43210"></div>
+
+      <!-- Doctor-only fields -->
+      <div id="su-doctor-fields" style="display:none">
+        <div style="display:flex;align-items:center;gap:8px;margin:4px 0 16px;padding:10px 14px;background:rgba(30,191,160,0.07);border:1px solid rgba(30,191,160,0.2);border-radius:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F9B81" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span style="font-size:13px;color:#0F9B81;font-weight:500">Doctor verification details &mdash; required for approval</span>
+        </div>
+        <div class="form-group">
+          <label>Specialty</label>
+          <select id="su-spec"><option>General Physician</option><option>Cardiologist</option><option>Dermatologist</option><option>Neurologist</option><option>Psychiatrist</option><option>Pediatrician</option><option>Orthopedic Surgeon</option><option>Gynecologist</option><option>ENT Specialist</option></select>
+        </div>
+        <div class="form-group">
+          <label>Medical License Number</label>
+          <input type="text" id="su-license" placeholder="e.g. MCI-2024-DL-12345">
+        </div>
+        <div class="form-group">
+          <label>Clinic / Hospital Name</label>
+          <input type="text" id="su-clinic" placeholder="e.g. Apollo Clinic, City Hospital">
+        </div>
+        <div class="form-group">
+          <label>Clinic Address</label>
+          <input type="text" id="su-addr1" placeholder="Street / Building, Area">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <input type="text" id="su-city" placeholder="City" style="padding:12px 16px;border:1.5px solid #E5EEF5;border-radius:10px;font-size:14px;color:#1B3A5C;outline:none;font-family:DM Sans,sans-serif;width:100%">
+            <input type="text" id="su-pin" placeholder="PIN Code" style="padding:12px 16px;border:1.5px solid #E5EEF5;border-radius:10px;font-size:14px;color:#1B3A5C;outline:none;font-family:DM Sans,sans-serif;width:100%">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Years of Experience</label>
+          <select id="su-exp"><option>Less than 1 year</option><option>1-3 years</option><option>3-5 years</option><option>5-10 years</option><option>10-15 years</option><option>15+ years</option></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="password-wrap"><input type="password" id="su-pw" placeholder="Min. 8 characters"><button class="toggle-pw" onclick="togglePw('su-pw',this)">Show</button></div>
+      </div>
+      <div class="form-check"><input type="checkbox" id="su-terms"><label for="su-terms">I agree to the <a>Terms of Service</a> and <a>Privacy Policy</a></label></div>
+      <button class="submit-btn" onclick="emailSignUp()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     MAIN APP
+═══════════════════════════════════ -->
+<div id="page-app" class="page">
+  <nav class="appnav">
+    <div class="logo" onclick="go('landing')">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+      MedConnect
+    </div>
+    <div class="appnav-links">
+      <a onclick="showSec('find')" id="nav-find" class="active">Find Doctors</a>
+      <a onclick="showSec('dash')" id="nav-dash">Dashboard</a>
+      <a onclick="showSec('how')" id="nav-how">How It Works</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-avatar" id="uAvatar">R</div>
+      <span class="user-name" id="uName">Rahul</span>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- Find Doctors -->
+  <section class="app-section active" id="sec-find">
+    <div class="search-wrapper">
+      <p class="section-tag">Find a Specialist</p>
+      <h2 class="section-title">Connect With the Right Doctor</h2>
+      <p class="section-sub">Search by name, specialty, or condition. All doctors are verified.</p>
+      <div class="search-bar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B8CAE" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="srch" placeholder="Search by name, specialty or condition..." oninput="filterDocs()">
+        <button class="search-btn" onclick="filterDocs()">Search</button>
+      </div>
+      <div class="specialty-chips" id="chips">
+        <span class="chip active" onclick="filterSpec('all',this)">All</span>
+        <span class="chip" onclick="filterSpec('Cardiologist',this)">Cardiology</span>
+        <span class="chip" onclick="filterSpec('Dermatologist',this)">Dermatology</span>
+        <span class="chip" onclick="filterSpec('Neurologist',this)">Neurology</span>
+        <span class="chip" onclick="filterSpec('General Physician',this)">General</span>
+        <span class="chip" onclick="filterSpec('Psychiatrist',this)">Mental Health</span>
+      </div>
+    </div>
+    <div class="doctors-grid" id="docsGrid"></div>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="app-section" id="sec-dash">
+    <p class="section-tag">Patient Portal</p>
+    <h2 class="section-title">Your Health Dashboard</h2>
+    <p class="section-sub" style="margin-bottom:28px">Manage appointments, view history, and track your health.</p>
+    <div class="dash-tabs">
+      <button class="dash-tab active" onclick="switchTab('up',this)">Upcoming</button>
+      <button class="dash-tab" onclick="switchTab('past',this)">Past Visits</button>
+      <button class="dash-tab" onclick="switchTab('rx',this)">Prescriptions</button>
+    </div>
+    <div class="dash-panel active" id="tab-up"><div class="appt-list" id="list-up"></div></div>
+    <div class="dash-panel" id="tab-past"><div class="appt-list" id="list-past"></div></div>
+    <div class="dash-panel" id="tab-rx"><div class="appt-list" id="list-rx"></div></div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="app-section" id="sec-how" style="background:linear-gradient(135deg,#E8FAF5,#F0F8FF)">
+    <div style="text-align:center;max-width:600px;margin:0 auto 8px">
+      <p class="section-tag">Simple Process</p>
+      <h2 class="section-title">How MedConnect Works</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card" data-step="01"><div class="step-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>Search & Filter</h3><p>Browse verified doctors by specialty, availability, rating, or language.</p></div>
+      <div class="step-card" data-step="02"><div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><h3>Book Instantly</h3><p>Choose your preferred time slot and confirm in seconds. Instant confirmation.</p></div>
+      <div class="step-card" data-step="03"><div class="step-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div><h3>Consult Remotely</h3><p>Connect via HD video call. Get prescriptions from the comfort of home.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal-overlay" id="bModal">
+  <div class="modal">
+    <div class="modal-header"><h3>Book Appointment</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="mBody">
+      <div class="modal-doc-info" id="mDocInfo"></div>
+      <div class="form-group"><label>Consultation Type</label><select id="cType"><option>Video Call</option><option>Audio Call</option><option>Chat</option></select></div>
+      <div class="form-group"><label>Select Date</label><input type="date" id="aDate"></div>
+      <div class="form-group"><label>Available Time Slots</label><div class="time-slots" id="tSlots"></div></div>
+      <div class="form-group"><label>Describe Your Concern (optional)</label><textarea id="concern" rows="3" placeholder="Briefly describe your symptoms..." style="width:100%;padding:12px 16px;border:1.5px solid #E5EEF5;border-radius:10px;font-size:14px;outline:none;font-family:'DM Sans',sans-serif;resize:vertical"></textarea></div>
+      <button class="confirm-btn" onclick="confirmBook()">Confirm Appointment →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════
+     DOCTOR PORTAL
+═══════════════════════════════════ -->
+<div id="page-doctor" class="page">
+  <nav class="docnav">
+    <div class="logo" style="color:white" onclick="go('landing')">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+      MedConnect
+    </div>
+    <div class="docnav-links">
+      <a onclick="showDocSec('overview')" id="dnav-overview" class="active">Overview</a>
+      <a onclick="showDocSec('schedule')" id="dnav-schedule">Schedule</a>
+      <a onclick="showDocSec('patients')" id="dnav-patients">Patients</a>
+      <a onclick="showDocSec('earnings')" id="dnav-earnings">Earnings</a>
+      <a onclick="showDocSec('profile')" id="dnav-profile">Profile</a>
+    </div>
+    <div class="doc-user-menu">
+      <div class="doctor-badge-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verified Doctor</div>
+      <div class="doc-user-avatar" id="dAvatar">D</div>
+      <span class="doc-user-name" id="dName">Doctor</span>
+      <button class="doc-logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- ── OVERVIEW ── -->
+  <section class="doc-section active" id="dsec-overview">
+    <div class="doc-welcome-banner">
+      <div class="doc-welcome-text">
+        <h2>Good morning, Dr. <span id="dWelcomeName">Smith</span> 👋</h2>
+        <p>You have <strong id="dTodayCount" style="color:var(--teal)">4</strong> appointments today. Your patients are waiting!</p>
+      </div>
+      <div class="doc-welcome-actions">
+        <button class="doc-status-toggle available" id="docStatusBtn" onclick="toggleDocStatus()">
+          <span class="status-dot on" id="statusDot"></span>
+          <span id="statusLabel">Available Now</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="doc-stats-row">
+      <div class="doc-stat-card">
+        <div class="stat-icon" style="background:#EDF6FF"><svg viewBox="0 0 24 24" stroke="#3B82F6"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3>48</h3>
+        <p>Total Appointments</p>
+        <span class="stat-trend">↑ 12% this month</span>
+      </div>
+      <div class="doc-stat-card">
+        <div class="stat-icon" style="background:#EDFAF3"><svg viewBox="0 0 24 24" stroke="#12A159"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>32</h3>
+        <p>Active Patients</p>
+        <span class="stat-trend">↑ 5 new this week</span>
+      </div>
+      <div class="doc-stat-card">
+        <div class="stat-icon" style="background:#FFF8E1"><svg viewBox="0 0 24 24" stroke="#B07D00"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>₹38,400</h3>
+        <p>Earnings This Month</p>
+        <span class="stat-trend">↑ 8% vs last month</span>
+      </div>
+      <div class="doc-stat-card">
+        <div class="stat-icon" style="background:#F3EEFF"><svg viewBox="0 0 24 24" stroke="#8B5CF6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <h3>4.9★</h3>
+        <p>Average Rating</p>
+        <span class="stat-trend">Based on 234 reviews</span>
+      </div>
+    </div>
+
+    <div class="doc-two-col">
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <h4>Today's Appointments</h4>
+          <a onclick="showDocSec('schedule')">View All →</a>
+        </div>
+        <div id="doc-today-appts">
+          <div class="doc-appt-item">
+            <div class="doc-appt-time"><strong>09:00</strong><span>AM</span></div>
+            <div class="doc-appt-details"><h5>Priya Menon</h5><p>Video Call · General Checkup</p></div>
+            <button class="doc-appt-action">Start Call</button>
+          </div>
+          <div class="doc-appt-item">
+            <div class="doc-appt-time"><strong>10:30</strong><span>AM</span></div>
+            <div class="doc-appt-details"><h5>Rahul Sharma</h5><p>Video Call · Follow-up</p></div>
+            <button class="doc-appt-action">Start Call</button>
+          </div>
+          <div class="doc-appt-item">
+            <div class="doc-appt-time"><strong>02:00</strong><span>PM</span></div>
+            <div class="doc-appt-details"><h5>Ankit Patel</h5><p>Audio Call · Consultation</p></div>
+            <button class="doc-appt-action view">View</button>
+          </div>
+          <div class="doc-appt-item">
+            <div class="doc-appt-time"><strong>04:00</strong><span>PM</span></div>
+            <div class="doc-appt-details"><h5>Sunita Rao</h5><p>Video Call · New Patient</p></div>
+            <button class="doc-appt-action view">View</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <h4>Recent Earnings</h4>
+          <a onclick="showDocSec('earnings')">Full Report →</a>
+        </div>
+        <div class="earning-row">
+          <div class="earning-patient">
+            <div class="earning-avatar" style="background:#3B82F6">P</div>
+            <div class="earning-info"><p>Priya Menon</p><span>Today, 09:00 AM</span></div>
+          </div>
+          <div class="earning-amount">+₹800</div>
+        </div>
+        <div class="earning-row">
+          <div class="earning-patient">
+            <div class="earning-avatar" style="background:#10B981">R</div>
+            <div class="earning-info"><p>Rahul Sharma</p><span>Yesterday, 11:00 AM</span></div>
+          </div>
+          <div class="earning-amount">+₹800</div>
+        </div>
+        <div class="earning-row">
+          <div class="earning-patient">
+            <div class="earning-avatar" style="background:#F59E0B">A</div>
+            <div class="earning-info"><p>Ankit Patel</p><span>Yesterday, 03:00 PM</span></div>
+          </div>
+          <div class="earning-amount">+₹800</div>
+        </div>
+        <div class="earning-row">
+          <div class="earning-patient">
+            <div class="earning-avatar" style="background:#EC4899">S</div>
+            <div class="earning-info"><p>Sunita Rao</p><span>Mar 28, 10:00 AM</span></div>
+          </div>
+          <div class="earning-amount">+₹800</div>
+        </div>
+        <div class="earning-row">
+          <div class="earning-patient">
+            <div class="earning-avatar" style="background:#8B5CF6">K</div>
+            <div class="earning-info"><p>Karan Mehta</p><span>Mar 27, 02:00 PM</span></div>
+          </div>
+          <div class="earning-amount">+₹800</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCHEDULE ── -->
+  <section class="doc-section" id="dsec-schedule">
+    <div class="schedule-header">
+      <div>
+        <p class="section-tag">Weekly View</p>
+        <h2 class="section-title" style="font-size:26px;margin-bottom:0">My Schedule</h2>
+      </div>
+      <div class="week-nav">
+        <button onclick="toast('Previous week','info')">‹</button>
+        <span id="weekLabel">Mar 30 – Apr 5, 2026</span>
+        <button onclick="toast('Next week','info')">›</button>
+      </div>
+    </div>
+    <div class="day-cols" id="weekGrid"></div>
+  </section>
+
+  <!-- ── PATIENTS ── -->
+  <section class="doc-section" id="dsec-patients">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:14px">
+      <div>
+        <p class="section-tag">Patient Records</p>
+        <h2 class="section-title" style="font-size:26px;margin-bottom:0">My Patients</h2>
+      </div>
+      <div class="search-bar" style="max-width:320px;margin-top:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B8CAE" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Search patients..." style="font-size:14px">
+        <button class="search-btn" style="padding:8px 18px;font-size:13px">Search</button>
+      </div>
+    </div>
+    <div class="doc-card" style="padding:0;overflow:hidden">
+      <table class="patients-table">
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Last Visit</th>
+            <th>Next Appt</th>
+            <th>Condition</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="patient-name-cell"><div class="patient-avatar-sm" style="background:#3B82F6">P</div><div><strong>Priya Menon</strong><br><span style="font-size:12px;color:var(--text-muted)">priya@email.com</span></div></div></td>
+            <td>Mar 29, 2026</td>
+            <td>Apr 2, 2026</td>
+            <td>Hypertension</td>
+            <td><span class="status-pill active">Active</span></td>
+            <td><button class="doc-appt-action" style="font-size:12px">View Records</button></td>
+          </tr>
+          <tr>
+            <td><div class="patient-name-cell"><div class="patient-avatar-sm" style="background:#10B981">R</div><div><strong>Rahul Sharma</strong><br><span style="font-size:12px;color:var(--text-muted)">rahul@email.com</span></div></div></td>
+            <td>Mar 28, 2026</td>
+            <td>Apr 5, 2026</td>
+            <td>Follow-up checkup</td>
+            <td><span class="status-pill active">Active</span></td>
+            <td><button class="doc-appt-action" style="font-size:12px">View Records</button></td>
+          </tr>
+          <tr>
+            <td><div class="patient-name-cell"><div class="patient-avatar-sm" style="background:#F59E0B">A</div><div><strong>Ankit Patel</strong><br><span style="font-size:12px;color:var(--text-muted)">ankit@email.com</span></div></div></td>
+            <td>Mar 27, 2026</td>
+            <td>Today</td>
+            <td>Diabetes management</td>
+            <td><span class="status-pill pending">Pending</span></td>
+            <td><button class="doc-appt-action" style="font-size:12px">View Records</button></td>
+          </tr>
+          <tr>
+            <td><div class="patient-name-cell"><div class="patient-avatar-sm" style="background:#EC4899">S</div><div><strong>Sunita Rao</strong><br><span style="font-size:12px;color:var(--text-muted)">sunita@email.com</span></div></div></td>
+            <td>Mar 25, 2026</td>
+            <td>Today</td>
+            <td>New patient intake</td>
+            <td><span class="status-pill pending">Pending</span></td>
+            <td><button class="doc-appt-action" style="font-size:12px">View Records</button></td>
+          </tr>
+          <tr>
+            <td><div class="patient-name-cell"><div class="patient-avatar-sm" style="background:#8B5CF6">K</div><div><strong>Karan Mehta</strong><br><span style="font-size:12px;color:var(--text-muted)">karan@email.com</span></div></div></td>
+            <td>Mar 15, 2026</td>
+            <td>—</td>
+            <td>Migraine treatment</td>
+            <td><span class="status-pill done">Completed</span></td>
+            <td><button class="doc-appt-action view" style="font-size:12px">View Records</button></td>
+          </tr>
+          <tr>
+            <td><div class="patient-name-cell"><div class="patient-avatar-sm" style="background:#06B6D4">N</div><div><strong>Nisha Joshi</strong><br><span style="font-size:12px;color:var(--text-muted)">nisha@email.com</span></div></div></td>
+            <td>Mar 10, 2026</td>
+            <td>—</td>
+            <td>Thyroid follow-up</td>
+            <td><span class="status-pill done">Completed</span></td>
+            <td><button class="doc-appt-action view" style="font-size:12px">View Records</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── EARNINGS ── -->
+  <section class="doc-section" id="dsec-earnings">
+    <p class="section-tag">Financial Overview</p>
+    <h2 class="section-title" style="font-size:26px;margin-bottom:28px">My Earnings</h2>
+    <div class="earnings-overview">
+      <div class="earn-card">
+        <div class="earn-icon" style="background:#EDF6FF"><svg viewBox="0 0 24 24" stroke="#3B82F6" fill="none" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>₹38,400</h3>
+        <p>This Month</p>
+        <div class="trend">↑ 8% vs last month</div>
+      </div>
+      <div class="earn-card">
+        <div class="earn-icon" style="background:#EDFAF3"><svg viewBox="0 0 24 24" stroke="#12A159" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3>48</h3>
+        <p>Consultations</p>
+        <div class="trend">This month</div>
+      </div>
+      <div class="earn-card">
+        <div class="earn-icon" style="background:#FFF8E1"><svg viewBox="0 0 24 24" stroke="#B07D00" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>₹2,34,000</h3>
+        <p>Total Lifetime</p>
+        <div class="trend">↑ Since joining</div>
+      </div>
+    </div>
+    <div class="earn-history">
+      <div class="earn-history-header">
+        <h4>Transaction History</h4>
+        <button class="doc-appt-action" style="font-size:13px" onclick="toast('Downloading report...','info')">Download Report</button>
+      </div>
+      <table class="earn-table">
+        <thead><tr><th>Patient</th><th>Date</th><th>Type</th><th>Duration</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Priya Menon</td><td>Mar 29, 2026</td><td>Video Call</td><td>30 min</td><td style="font-weight:700;color:var(--navy)">₹800</td><td><span class="status-pill active">Paid</span></td></tr>
+          <tr><td>Rahul Sharma</td><td>Mar 28, 2026</td><td>Video Call</td><td>25 min</td><td style="font-weight:700;color:var(--navy)">₹800</td><td><span class="status-pill active">Paid</span></td></tr>
+          <tr><td>Ankit Patel</td><td>Mar 27, 2026</td><td>Audio Call</td><td>20 min</td><td style="font-weight:700;color:var(--navy)">₹800</td><td><span class="status-pill active">Paid</span></td></tr>
+          <tr><td>Sunita Rao</td><td>Mar 26, 2026</td><td>Video Call</td><td>40 min</td><td style="font-weight:700;color:var(--navy)">₹800</td><td><span class="status-pill active">Paid</span></td></tr>
+          <tr><td>Karan Mehta</td><td>Mar 25, 2026</td><td>Video Call</td><td>30 min</td><td style="font-weight:700;color:var(--navy)">₹800</td><td><span class="status-pill pending">Processing</span></td></tr>
+          <tr><td>Nisha Joshi</td><td>Mar 24, 2026</td><td>Audio Call</td><td>15 min</td><td style="font-weight:700;color:var(--navy)">₹800</td><td><span class="status-pill active">Paid</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── PROFILE ── -->
+  <section class="doc-section" id="dsec-profile">
+    <p class="section-tag">Doctor Profile</p>
+    <h2 class="section-title" style="font-size:26px;margin-bottom:28px">My Profile</h2>
+    <div class="profile-grid">
+      <div>
+        <div class="profile-card-left">
+          <div class="profile-big-avatar" id="dProfileAvatar">D</div>
+          <h3 id="dProfileName">Dr. Smith</h3>
+          <p id="dProfileSpec">General Physician</p>
+          <div class="doctor-badge-pill" style="display:inline-flex;margin-top:8px"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verified</div>
+          <div style="margin-top:20px;text-align:left">
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F4F8"><span style="font-size:13px;color:var(--text-muted)">Rating</span><strong style="font-size:13px">4.9 ★</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F4F8"><span style="font-size:13px;color:var(--text-muted)">Reviews</span><strong style="font-size:13px">234</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F4F8"><span style="font-size:13px;color:var(--text-muted)">Patients</span><strong style="font-size:13px">32</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0"><span style="font-size:13px;color:var(--text-muted)">Member since</span><strong style="font-size:13px">2024</strong></div>
+          </div>
+          <button class="profile-edit-btn" onclick="toast('Profile photo upload coming soon!','info')">Update Photo</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="profile-form-card">
+          <h4>Personal Information</h4>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" id="p-fn" value="Dr. Alex"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="p-ln" value="Smith"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email</label><input type="email" value="alex.smith@hospital.com"></div>
+            <div class="form-group"><label>Phone</label><input type="tel" value="+91 98765 43210"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Specialty</label>
+              <select><option>General Physician</option><option>Cardiologist</option><option>Dermatologist</option><option>Neurologist</option></select>
+            </div>
+            <div class="form-group"><label>Experience</label>
+              <select><option>5-10 years</option><option>1-3 years</option><option>3-5 years</option><option>10-15 years</option><option>15+ years</option></select>
+            </div>
+          </div>
+          <div class="form-group"><label>Bio / About</label><textarea rows="3" style="width:100%;padding:12px 16px;border:1.5px solid #E5EEF5;border-radius:10px;font-size:14px;outline:none;font-family:'DM Sans',sans-serif;resize:vertical;color:var(--text)">Experienced general physician specializing in preventive care and chronic disease management. Available for video and audio consultations.</textarea></div>
+          <div class="form-group"><label>Consultation Fee (₹)</label><input type="number" value="800"></div>
+          <button class="profile-edit-btn" onclick="toast('Profile saved successfully!','success')">Save Changes</button>
+        </div>
+        <div class="profile-form-card">
+          <h4>Availability</h4>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Select days you are available for consultations</p>
+          <div class="availability-grid">
+            <div class="avail-day on" onclick="this.classList.toggle('on')"><p>Mon</p></div>
+            <div class="avail-day on" onclick="this.classList.toggle('on')"><p>Tue</p></div>
+            <div class="avail-day on" onclick="this.classList.toggle('on')"><p>Wed</p></div>
+            <div class="avail-day on" onclick="this.classList.toggle('on')"><p>Thu</p></div>
+            <div class="avail-day on" onclick="this.classList.toggle('on')"><p>Fri</p></div>
+            <div class="avail-day" onclick="this.classList.toggle('on')"><p>Sat</p></div>
+            <div class="avail-day" onclick="this.classList.toggle('on')"><p>Sun</p></div>
+          </div>
+          <button class="profile-edit-btn" style="margin-top:20px" onclick="toast('Availability updated!','success')">Update Availability</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
