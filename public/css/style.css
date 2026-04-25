@@ -10,8 +10,13 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-.page { display: none; min-height: 100vh; }
-.page.active { display: block; }
+.page { display: none; min-height: 100vh; opacity: 0; }
+.page.active { display: block; animation: pageFadeIn 0.4s ease forwards; }
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ── SHARED ── */
 .logo { display: flex; align-items: center; gap: 10px; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); text-decoration: none; cursor: pointer; }

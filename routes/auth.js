@@ -1,24 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { OAuth2Client } = require('google-auth-library');
+const supabase = require('../database');
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
-
-// Middleware to verify JWT
-const verifyToken = (req, res, next) => {
+// Middleware to verify Supabase JWT
+const verifyToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     if (!authHeader) return res.status(403).json({ error: 'No token provided' });
     
     const token = authHeader.split(' ')[1];
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(401).json({ error: 'Unauthorized' });
-        req.user = decoded;
-        next();
-    });
+    
+    // Verify token using Supabase
+    const { data, error } = await supabase.auth.getUser(token);
+    
+    if (error || !data.user) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    // Fetch custom user details (role, name) from our users table
+    const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', data.user.id)
+        .single();
+        
+    if (userError || !userData) {
+        return res.status(401).json({ error: 'User profile not found' });
+    }
+
+    req.user = {
+        id: data.user.id,
+        email: data.user.email,
+        role: userData.role,
+        name: userData.name
+    };
+    next();
 };
 
 // Register
@@ -30,67 +45,195 @@ router.post('/register', async (req, res) => {
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
         const name = `${firstName} ${lastName}`;
 
-        db.run(`INSERT INTO users (email, password, name, role, phone) VALUES (?, ?, ?, ?, ?)`,
-            [email, hashedPassword, name, role, phone],
-            function(err) {
-                if (err) {
-                    if (err.message.includes('UNIQUE constraint failed')) {
-                        return res.status(400).json({ error: 'Email already exists' });
-                    }
-                    return res.status(500).json({ error: 'Database error' });
-                }
+        // 1. Create user in Supabase Auth (Using Admin to bypass email rate limits & auto-confirm)
+        const { data: createData, error: createError } = await supabase.auth.admin.createUser({
+            email,
+            password,
+            email_confirm: true
+        });
+
+        if (createError) {
+            return res.status(400).json({ error: createError.message });
+        }
+
+        // Now sign in to get the authentication token
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (authError) {
+            return res.status(400).json({ error: 'Failed to sign in after creation' });
+        }
+
+        const userId = authData.user.id;
+
+        // 2. Insert into custom users table
+        const { error: userError } = await supabase
+            .from('users')
+            .insert([{ id: userId, email, name, role, phone }]);
+
+        if (userError) {
+            console.error('Error inserting user', userError);
+            return res.status(500).json({ error: 'Database error creating profile' });
+        }
+
+        // 3. If doctor, store profile info
+        if (role === 'doctor') {
+            const { error: docError } = await supabase
+                .from('doctors_profile')
+                .insert([{
+                    user_id: userId,
+                    specialty,
+                    license_number: license,
+                    clinic_name: clinic,
+                    clinic_address: clinicAddr
+                }]);
                 
-                const userId = this.lastID;
-
-                // If doctor, store profile info
-                if (role === 'doctor') {
-                    db.run(`INSERT INTO doctors_profile (user_id, specialty, license_number, clinic_name, clinic_address) 
-                            VALUES (?, ?, ?, ?, ?)`,
-                        [userId, specialty, license, clinic, clinicAddr],
-                        (errDoc) => {
-                            if (errDoc) {
-                                console.error('Error inserting doctor profile', errDoc);
-                            }
-                        }
-                    );
-                }
-
-                const token = jwt.sign({ id: userId, email, role, name }, JWT_SECRET, { expiresIn: '24h' });
-                res.status(201).json({ message: 'User created', token, user: { id: userId, email, role, name } });
+            if (docError) {
+                console.error('Error inserting doctor profile', docError);
             }
-        );
+        }
+
+        // Supabase signUp returns a session if email confirmations are disabled.
+        // We can return the access token.
+        const token = authData.session ? authData.session.access_token : null;
+        
+        res.status(201).json({ 
+            message: 'User created', 
+            token, 
+            user: { id: userId, email, role, name } 
+        });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Server error during registration' });
     }
 });
 
 // Login
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, password, role } = req.body;
 
     if (!email || !password || !role) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    db.get(`SELECT * FROM users WHERE email = ? AND role = ?`, [email, role], async (err, user) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
-        if (!user) return res.status(404).json({ error: 'User not found' });
+    try {
+        // 1. Authenticate with Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
+        if (authError) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
 
-        const token = jwt.sign({ id: user.id, email: user.email, role: user.role, name: user.name }, JWT_SECRET, { expiresIn: '24h' });
-        res.json({ message: 'Login successful', token, user: { id: user.id, email: user.email, role: user.role, name: user.name } });
-    });
+        const userId = authData.user.id;
+
+        // 2. Fetch custom user profile to check role
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+        if (userError || !userData) {
+            return res.status(404).json({ error: 'User profile not found' });
+        }
+
+        if (userData.role !== role) {
+            return res.status(401).json({ error: 'Invalid credentials for this role' });
+        }
+
+        const token = authData.session.access_token;
+        res.json({ 
+            message: 'Login successful', 
+            token, 
+            user: { id: userId, email: userData.email, role: userData.role, name: userData.name } 
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error during login' });
+    }
 });
 
-// Google Auth (Mock fallback if dummy client id is used)
+// Google Auth using Supabase signInWithIdToken
 router.post('/google', async (req, res) => {
-    const { token, role } = req.body;
-    res.status(200).json({ message: "Google Auth requires valid Client ID to be fully operational. Replace dummy ID in .env.", status: "mocked" });
+    const { token, role, specialty, license, clinic, clinicAddr } = req.body;
+    
+    if (!token) return res.status(400).json({ error: 'No Google token provided' });
+
+    try {
+        // 1. Authenticate with Supabase using the ID token
+        const { data: authData, error: authError } = await supabase.auth.signInWithIdToken({
+            provider: 'google',
+            token
+        });
+
+        if (authError || !authData.user) {
+            console.error('Supabase Auth Error:', authError);
+            return res.status(401).json({ error: 'Google Authentication failed. ' + (authError?.message || '') });
+        }
+
+        const userId = authData.user.id;
+        const email = authData.user.email;
+        const name = authData.user.user_metadata?.full_name || email.split('@')[0];
+
+        // 2. Check if user profile exists
+        let isNewUser = false;
+        let { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+        if (userError || !userData) {
+            // User does not exist in our custom table, create them
+            isNewUser = true;
+            
+            // If role is missing, default to patient
+            const userRole = role || 'patient';
+            
+            const { error: insertError } = await supabase
+                .from('users')
+                .insert([{ id: userId, email, name, role: userRole }]);
+                
+            if (insertError) {
+                console.error('Error creating user profile:', insertError);
+                return res.status(500).json({ error: 'Failed to create user profile' });
+            }
+
+            if (userRole === 'doctor') {
+                const { error: docError } = await supabase
+                    .from('doctors_profile')
+                    .insert([{
+                        user_id: userId,
+                        specialty: specialty || 'General Physician',
+                        license_number: license || 'Pending',
+                        clinic_name: clinic || 'Pending',
+                        clinic_address: clinicAddr || 'Pending'
+                    }]);
+                if (docError) console.error('Error creating doctor profile:', docError);
+            }
+            
+            userData = { id: userId, email, name, role: userRole };
+        }
+
+        const accessToken = authData.session.access_token;
+        res.json({
+            message: 'Google login successful',
+            token: accessToken,
+            isNewUser,
+            user: { id: userId, email, role: userData.role, name: userData.name }
+        });
+
+    } catch (error) {
+        console.error('Google Auth Route Error:', error);
+        res.status(500).json({ error: 'Server error during Google login' });
+    }
 });
 
 router.get('/me', verifyToken, (req, res) => {
@@ -99,3 +242,4 @@ router.get('/me', verifyToken, (req, res) => {
 
 module.exports = router;
 module.exports.verifyToken = verifyToken;
+

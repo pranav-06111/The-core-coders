@@ -4,6 +4,24 @@ const API_URL = '/api';
 
 // Look for token on load
 document.addEventListener('DOMContentLoaded', () => {
+    // Fetch config for Google Auth
+    fetch('/api/config')
+        .then(r => r.json())
+        .then(cfg => {
+            if (cfg.googleClientId && window.google) {
+                google.accounts.id.initialize({
+                    client_id: cfg.googleClientId,
+                    callback: handleGoogleResponse
+                });
+                const btnOpts = { theme: "outline", size: "large", width: 340 };
+                const btnSignin = document.getElementById('googleBtnSignin');
+                const btnSignup = document.getElementById('googleBtnSignup');
+                if (btnSignin) google.accounts.id.renderButton(btnSignin, btnOpts);
+                if (btnSignup) google.accounts.id.renderButton(btnSignup, btnOpts);
+            }
+        })
+        .catch(err => console.error('Failed to load config', err));
+
     const token = localStorage.getItem('token');
     if (token) {
         fetch(`${API_URL}/auth/me`, {
@@ -41,9 +59,49 @@ function go(page) {
 }
 
 // ── AUTH
-function googleAuth(mode) {
-  toast('Connecting to Google...', 'info');
-  setTimeout(() => toast('Google Auth mocked during hackathon. Please use email.', 'info'), 1000);
+async function handleGoogleResponse(response) {
+    const token = response.credential;
+    if (!token) return;
+
+    toast('Authenticating with Google...', 'info');
+
+    let payload = { token, role };
+    
+    // If signing up as a doctor, we need to pass the extra fields
+    if (role === 'doctor') {
+        const specialty = document.getElementById('su-spec') ? document.getElementById('su-spec').value : '';
+        const license = document.getElementById('su-license') ? document.getElementById('su-license').value.trim() : '';
+        const clinic = document.getElementById('su-clinic') ? document.getElementById('su-clinic').value.trim() : '';
+        const clinicAddr = document.getElementById('su-addr1') ? document.getElementById('su-addr1').value.trim() : '';
+        
+        // If they are on the signup page (the fields are visible), require them
+        const isSignup = document.getElementById('page-signup').classList.contains('active');
+        if (isSignup && (!license || !clinic || !clinicAddr)) {
+            toast('Please complete doctor verification details before continuing with Google', 'error');
+            return;
+        }
+        
+        if (isSignup) {
+            payload.specialty = specialty;
+            payload.license = license;
+            payload.clinic = clinic;
+            payload.clinicAddr = clinicAddr;
+        }
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/auth/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Google Login failed');
+        
+        loginOK(data.user, data.isNewUser, data.token);
+    } catch (err) {
+        toast(err.message, 'error');
+    }
 }
 
 async function emailSignIn() {
