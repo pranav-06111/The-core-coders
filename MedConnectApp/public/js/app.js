@@ -38,6 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('token');
         });
     }
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => btn.textContent = '☀️');
+    }
 });
 
 let DOCS = [];
@@ -45,10 +51,10 @@ let APPTS = { up: [], past: [], rx: [] };
 
 const SLOTS = ["09:00 AM","10:00 AM","11:00 AM","12:00 PM","02:00 PM","03:00 PM","04:00 PM","05:00 PM","06:00 PM"];
 const ICONS = {
-  'Video Call':`<svg viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg>`,
-  'Audio Call':`<svg viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.82-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
-  'Download PDF':`<svg viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
-  'Chat':`<svg viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+  'Video Call':`<svg viewBox="0 0 24 24" fill="none" stroke="#005F6B" stroke-width="2"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg>`,
+  'Audio Call':`<svg viewBox="0 0 24 24" fill="none" stroke="#005F6B" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.82-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  'Download PDF':`<svg viewBox="0 0 24 24" fill="none" stroke="#005F6B" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  'Chat':`<svg viewBox="0 0 24 24" fill="none" stroke="#005F6B" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
 };
 
 // ── NAV
@@ -342,6 +348,7 @@ async function loadPatientDashboard() {
         APPTS.past = data.past ? data.past.map(a => ({ doc: a.doctorName, spec: a.spec, date: a.date, time: a.time, type: a.type, status: a.status })) : [];
         
         renderDash();
+        fetchVitals();
     } catch (err) {
         console.error("Dashboard error", err);
     }
@@ -364,7 +371,10 @@ function renderList(id, data) {
     <div class="appt-card">
       <div class="appt-icon">${ICONS[a.type]||ICONS['Video Call']}</div>
       <div class="appt-info"><h4>${a.doc}</h4><p>${a.spec||'Consultation'} · ${a.date} at ${a.time} · ${a.type}</p></div>
-      <span class="appt-badge ${a.status}">${a.status==='upcoming'?'Upcoming':'Completed'}</span>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <span class="appt-badge ${a.status}">${a.status==='upcoming'?'Upcoming':'Completed'}</span>
+        ${a.status==='completed' ? `<button class="export-btn" onclick="exportPDF(this.closest('.appt-card'), '${a.doc}', '${a.date}')">${ICONS['Download PDF']||'📄'} Export PDF</button>` : ''}
+      </div>
     </div>`).join('');
 }
 
@@ -480,3 +490,145 @@ const bModal = document.getElementById('bModal');
 if(bModal) {
     window.addEventListener('click', e => { if (e.target === bModal) closeModal(); });
 }
+
+// ── NEW FEATURES (DARK MODE, PDF EXPORT, VITALS) ──
+
+function toggleDarkMode() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    const btns = document.querySelectorAll('.dark-mode-toggle');
+    if (isDark) {
+        document.body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        btns.forEach(btn => btn.textContent = '🌙');
+        toast('Light mode activated', 'info');
+    } else {
+        document.body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        btns.forEach(btn => btn.textContent = '☀️');
+        toast('Dark mode activated', 'info');
+    }
+    
+    // Re-render vitals chart to update its text colors
+    if (typeof vitalsData !== 'undefined' && vitalsData.length > 0) {
+        renderVitalsChart();
+    }
+}
+
+function exportPDF(element, docName, date) {
+    toast('Generating PDF...', 'info');
+    // Hide the button itself before export
+    const btn = element.querySelector('.export-btn');
+    if (btn) btn.style.display = 'none';
+
+    const opt = {
+        margin:       10,
+        filename:     `Consultation_${docName.replace(/\s+/g,'_')}_${date}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(element).save().then(() => {
+        if (btn) btn.style.display = 'inline-flex';
+        toast('PDF Downloaded!', 'success');
+    });
+}
+
+let vitalsChartInstance = null;
+let vitalsData = [];
+
+async function fetchVitals() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    try {
+        const res = await fetch(`${API_URL}/vitals`, { headers: { 'Authorization': `Bearer ${token}` } });
+        if (!res.ok) throw new Error('Failed to fetch vitals');
+        const data = await res.json();
+        vitalsData = data.vitals || [];
+        renderVitalsChart();
+    } catch (err) {
+        console.error("Vitals fetch error", err);
+    }
+}
+
+function renderVitalsChart() {
+    const canvas = document.getElementById('vitalsChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const dates = vitalsData.map(v => v.date);
+    const weights = vitalsData.map(v => v.weight);
+    const hr = vitalsData.map(v => v.heart_rate);
+
+    if (vitalsChartInstance) {
+        vitalsChartInstance.destroy();
+    }
+
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#F8FAFC' : '#1B3A5C';
+
+    vitalsChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates.length ? dates : ['No Data'],
+            datasets: [
+                {
+                    label: 'Weight (kg)',
+                    data: weights.length ? weights : [0],
+                    borderColor: '#005F6B',
+                    backgroundColor: 'rgba(0,95,107,0.1)',
+                    tension: 0.3,
+                    fill: true
+                },
+                {
+                    label: 'Heart Rate (bpm)',
+                    data: hr.length ? hr : [0],
+                    borderColor: '#3B82F6',
+                    backgroundColor: 'transparent',
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { labels: { color: textColor } }
+            },
+            scales: {
+                x: { ticks: { color: textColor } },
+                y: { ticks: { color: textColor } }
+            }
+        }
+    });
+}
+
+async function saveVitals() {
+    const date = document.getElementById('vDate').value;
+    const weight = document.getElementById('vWeight').value;
+    const bp = document.getElementById('vBp').value;
+    const hr = document.getElementById('vHr').value;
+
+    if (!date) { toast('Please enter a date', 'error'); return; }
+
+    const token = localStorage.getItem('token');
+    try {
+        const res = await fetch(`${API_URL}/vitals`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ date, weight, blood_pressure: bp, heart_rate: hr })
+        });
+        if (!res.ok) throw new Error('Failed to save vitals');
+        toast('Vitals saved successfully!', 'success');
+        
+        // Reset form
+        document.getElementById('vWeight').value = '';
+        document.getElementById('vBp').value = '';
+        document.getElementById('vHr').value = '';
+        
+        // Refetch and update
+        fetchVitals();
+    } catch (err) {
+        toast(err.message, 'error');
+    }
+}
+

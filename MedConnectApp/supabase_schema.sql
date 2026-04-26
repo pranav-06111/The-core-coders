@@ -49,3 +49,17 @@ ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow full access for authenticated users" ON users FOR ALL TO authenticated USING (true);
 CREATE POLICY "Allow full access for authenticated users" ON doctors_profile FOR ALL TO authenticated USING (true);
 CREATE POLICY "Allow full access for authenticated users" ON appointments FOR ALL TO authenticated USING (true);
+
+-- 4. Create vitals table for Patient Vitals Tracker
+CREATE TABLE IF NOT EXISTS vitals (
+    id SERIAL PRIMARY KEY,
+    patient_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    date TEXT NOT NULL,
+    weight REAL,
+    blood_pressure TEXT,
+    heart_rate INTEGER,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE vitals ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow full access for authenticated users" ON vitals FOR ALL TO authenticated USING (true);

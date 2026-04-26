@@ -184,5 +184,62 @@ router.get('/dashboard', verifyToken, async (req, res) => {
     }
 });
 
+// Get Vitals (Protected)
+router.get('/vitals', verifyToken, async (req, res) => {
+    const userId = req.user.id;
+    if (req.user.role !== 'patient') return res.status(403).json({ error: 'Only patients can access vitals' });
+
+    try {
+        const { data: rows, error } = await supabase
+            .from('vitals')
+            .select('id, date, weight, blood_pressure, heart_rate')
+            .eq('patient_id', userId)
+            .order('date', { ascending: true }); // order by date for chart
+
+        if (error) {
+            console.error('Error fetching vitals:', error);
+            return res.status(500).json({ error: 'Database error fetching vitals' });
+        }
+
+        res.json({ vitals: rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error fetching vitals' });
+    }
+});
+
+// Post Vitals (Protected)
+router.post('/vitals', verifyToken, async (req, res) => {
+    const userId = req.user.id;
+    if (req.user.role !== 'patient') return res.status(403).json({ error: 'Only patients can access vitals' });
+
+    const { date, weight, blood_pressure, heart_rate } = req.body;
+    if (!date) return res.status(400).json({ error: 'Date is required' });
+
+    try {
+        const { data, error } = await supabase
+            .from('vitals')
+            .insert([{
+                patient_id: userId,
+                date,
+                weight: weight || null,
+                blood_pressure: blood_pressure || null,
+                heart_rate: heart_rate || null
+            }])
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error saving vitals:', error);
+            return res.status(500).json({ error: 'Database error saving vitals' });
+        }
+
+        res.status(201).json({ message: 'Vitals saved successfully', vital: data });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error saving vitals' });
+    }
+});
+
 module.exports = router;
 

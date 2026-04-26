@@ -6,6 +6,8 @@
 <title>MedConnect — Find Your Doctor In Minutes</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -20,11 +22,14 @@
       MedConnect
     </div>
     <div class="lnav-links">
-      <a onclick="document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'})">Features</a>
-      <a onclick="document.getElementById('lhow').scrollIntoView({behavior:'smooth'})">How It Works</a>
-      <a onclick="document.getElementById('ltestimonials').scrollIntoView({behavior:'smooth'})">Testimonials</a>
+      <a onclick="go('landing'); setTimeout(() => document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'}), 50)">Features</a>
+      <a onclick="go('landing'); setTimeout(() => document.getElementById('lhow').scrollIntoView({behavior:'smooth'}), 50)">How It Works</a>
+      <a onclick="go('landing'); setTimeout(() => document.getElementById('ltestimonials').scrollIntoView({behavior:'smooth'}), 50)">Testimonials</a>
+      <a onclick="go('pricing')">Pricing</a>
+      <a onclick="go('about')">About Us</a>
     </div>
     <div class="lnav-btns">
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" style="margin-right: 8px;">🌙</button>
       <button class="btn-ghost" onclick="go('signin')">Log in</button>
       <button class="btn-teal" onclick="go('signup')">Signup</button>
     </div>
@@ -55,7 +60,7 @@
     <div class="hero-visual">
       <div class="hero-card">
         <div class="video-badge">
-          <div class="video-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2" width="18" height="18"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div>
+          <div class="video-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#005F6B" stroke-width="2" width="18" height="18"><rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17 9 22 7 22 17 17 15"/></svg></div>
           <div class="video-badge-text"><strong>Video Call</strong><span><span class="live-dot"></span>Live Now</span></div>
         </div>
         <div class="hero-center-icon">
@@ -63,7 +68,7 @@
         </div>
         <div class="rating-badge">⭐ 4.9/5 Rating</div>
         <div class="doctor-badge">
-          <div class="doctor-badge-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1EBFA0" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="doctor-badge-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#005F6B" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div><strong>Verified Doctor</strong><p>Dr. Sarah M.</p></div>
         </div>
       </div>
@@ -130,11 +135,11 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo" style="color:white"><div class="logo-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div> MedConnect</div>
+        <div class="logo" style="color:white" onclick="go('landing')"><div class="logo-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div> MedConnect</div>
         <p>Instant, affordable healthcare for everyone. Connecting patients with verified doctors across India and beyond.</p>
       </div>
-      <div class="footer-col"><h5>Product</h5><a>Features</a><a>Pricing</a><a>For Doctors</a><a>Enterprise</a></div>
-      <div class="footer-col"><h5>Company</h5><a>About Us</a><a>Blog</a><a>Careers</a><a>Press</a></div>
+      <div class="footer-col"><h5>Product</h5><a onclick="go('landing'); setTimeout(() => document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'}), 50)">Features</a><a onclick="go('pricing')">Pricing</a><a onclick="go('signup')">For Doctors</a><a>Enterprise</a></div>
+      <div class="footer-col"><h5>Company</h5><a onclick="go('about')">About Us</a><a>Blog</a><a>Careers</a><a>Press</a></div>
       <div class="footer-col"><h5>Legal</h5><a>Privacy Policy</a><a>Terms of Service</a><a>HIPAA Compliance</a><a>Contact</a></div>
     </div>
     <div class="footer-bottom">
@@ -244,9 +249,9 @@
 
       <!-- Doctor-only fields -->
       <div id="su-doctor-fields" style="display:none">
-        <div style="display:flex;align-items:center;gap:8px;margin:4px 0 16px;padding:10px 14px;background:rgba(30,191,160,0.07);border:1px solid rgba(30,191,160,0.2);border-radius:10px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F9B81" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span style="font-size:13px;color:#0F9B81;font-weight:500">Doctor verification details &mdash; required for approval</span>
+        <div style="display:flex;align-items:center;gap:8px;margin:4px 0 16px;padding:10px 14px;background:rgba(0,95,107,0.07);border:1px solid rgba(0,95,107,0.2);border-radius:10px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00454E" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span style="font-size:13px;color:#00454E;font-weight:500">Doctor verification details &mdash; required for approval</span>
         </div>
         <div class="form-group">
           <label>Specialty</label>
@@ -296,9 +301,12 @@
     <div class="appnav-links">
       <a onclick="showSec('find')" id="nav-find" class="active">Find Doctors</a>
       <a onclick="showSec('dash')" id="nav-dash">Dashboard</a>
-      <a onclick="showSec('how')" id="nav-how">How It Works</a>
+      <a onclick="toast('Health Records coming soon!', 'info')">Health Records</a>
+      <a onclick="toast('Secure Messaging coming soon!', 'info')">Messages</a>
+      <a onclick="toast('Online Pharmacy coming soon!', 'info')">Pharmacy</a>
     </div>
     <div class="user-menu">
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
       <div class="user-avatar" id="uAvatar">R</div>
       <span class="user-name" id="uName">Rahul</span>
       <button class="logout-btn" onclick="logout()">Sign Out</button>
@@ -337,10 +345,27 @@
       <button class="dash-tab active" onclick="switchTab('up',this)">Upcoming</button>
       <button class="dash-tab" onclick="switchTab('past',this)">Past Visits</button>
       <button class="dash-tab" onclick="switchTab('rx',this)">Prescriptions</button>
+      <button class="dash-tab" onclick="switchTab('vitals',this)">Vitals Tracker</button>
     </div>
     <div class="dash-panel active" id="tab-up"><div class="appt-list" id="list-up"></div></div>
     <div class="dash-panel" id="tab-past"><div class="appt-list" id="list-past"></div></div>
     <div class="dash-panel" id="tab-rx"><div class="appt-list" id="list-rx"></div></div>
+    <div class="dash-panel" id="tab-vitals">
+      <div class="vitals-container">
+        <div class="vitals-chart-card">
+          <h4>Vitals History</h4>
+          <canvas id="vitalsChart"></canvas>
+        </div>
+        <div class="vitals-form-card">
+          <h4>Log New Vitals</h4>
+          <div class="form-group"><label>Date</label><input type="date" id="vDate"></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" id="vWeight" placeholder="e.g. 70" step="0.1"></div>
+          <div class="form-group"><label>Blood Pressure (mmHg)</label><input type="text" id="vBp" placeholder="e.g. 120/80"></div>
+          <div class="form-group"><label>Heart Rate (bpm)</label><input type="number" id="vHr" placeholder="e.g. 72"></div>
+          <button class="submit-btn" onclick="saveVitals()">Save Vitals</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- How It Works -->
@@ -388,9 +413,12 @@
       <a onclick="showDocSec('schedule')" id="dnav-schedule">Schedule</a>
       <a onclick="showDocSec('patients')" id="dnav-patients">Patients</a>
       <a onclick="showDocSec('earnings')" id="dnav-earnings">Earnings</a>
+      <a onclick="toast('Patient Messages coming soon!', 'info')">Messages</a>
+      <a onclick="toast('Patient Reviews coming soon!', 'info')">Reviews</a>
       <a onclick="showDocSec('profile')" id="dnav-profile">Profile</a>
     </div>
     <div class="doc-user-menu">
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
       <div class="doctor-badge-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Verified Doctor</div>
       <div class="doc-user-avatar" id="dAvatar">D</div>
       <span class="doc-user-name" id="dName">Doctor</span>
@@ -712,6 +740,159 @@
       </div>
     </div>
   </section>
+</div>
+
+<!-- ═══════════════════════════════════
+     PRICING PAGE
+═══════════════════════════════════ -->
+<div id="page-pricing" class="page">
+  <nav class="lnav">
+    <div class="logo" onclick="go('landing')">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+      MedConnect
+    </div>
+    <div class="lnav-links">
+      <a onclick="go('landing')">Home</a>
+      <a onclick="go('landing'); setTimeout(() => document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'}), 50)">Features</a>
+      <a onclick="go('about')">About Us</a>
+      <a class="active">Pricing</a>
+    </div>
+    <div class="lnav-btns">
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" style="margin-right: 8px;">🌙</button>
+      <button class="btn-ghost" onclick="go('signin')">Log in</button>
+      <button class="btn-teal" onclick="go('signup')">Signup</button>
+    </div>
+  </nav>
+
+  <div style="padding: 140px 5% 80px; text-align: center; max-width: 1200px; margin: 0 auto; min-height: 80vh;">
+    <p class="section-tag">Flexible Plans</p>
+    <h2 class="section-title">Transparent Pricing for Everyone</h2>
+    <p class="section-sub" style="margin: 0 auto 40px;">Choose a plan that fits your healthcare needs. No hidden fees.</p>
+    
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Basic</h3>
+        <div class="price">₹0<span>/month</span></div>
+        <p>Perfect for occasional consultations.</p>
+        <ul class="pricing-features">
+          <li>Pay-per-consultation access</li>
+          <li>Basic health records</li>
+          <li>Email support</li>
+          <li>Digital prescriptions</li>
+        </ul>
+        <button class="btn-outline" onclick="go('signup')" style="width:100%; margin-top:30px;">Get Started Free</button>
+      </div>
+      <div class="pricing-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <h3>Premium</h3>
+        <div class="price">₹499<span>/month</span></div>
+        <p>For individuals managing chronic conditions.</p>
+        <ul class="pricing-features">
+          <li><strong>2 Free consultations / month</strong></li>
+          <li>Priority booking (Skip the queue)</li>
+          <li>Advanced vitals tracking</li>
+          <li>24/7 Chat support with nurses</li>
+        </ul>
+        <button class="btn-teal" onclick="go('signup')" style="width:100%; margin-top:30px;">Upgrade to Premium</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Family</h3>
+        <div class="price">₹999<span>/month</span></div>
+        <p>Complete care for up to 5 family members.</p>
+        <ul class="pricing-features">
+          <li><strong>5 Free consultations / month</strong></li>
+          <li>Shared family health records</li>
+          <li>Pediatrician & Geriatric access</li>
+          <li>Dedicated care manager</li>
+        </ul>
+        <button class="btn-outline" onclick="go('signup')" style="width:100%; margin-top:30px;">Get Family Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="color:white" onclick="go('landing')"><div class="logo-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div> MedConnect</div>
+        <p>Instant, affordable healthcare for everyone. Connecting patients with verified doctors across India and beyond.</p>
+      </div>
+      <div class="footer-col"><h5>Product</h5><a onclick="go('landing'); setTimeout(() => document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'}), 50)">Features</a><a onclick="go('pricing')">Pricing</a><a onclick="go('signup')">For Doctors</a><a>Enterprise</a></div>
+      <div class="footer-col"><h5>Company</h5><a onclick="go('about')">About Us</a><a>Blog</a><a>Careers</a><a>Press</a></div>
+      <div class="footer-col"><h5>Legal</h5><a>Privacy Policy</a><a>Terms of Service</a><a>HIPAA Compliance</a><a>Contact</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MedConnect. Built for hackathon.</p>
+      <p>Made with ❤️ in India</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════
+     ABOUT US PAGE
+═══════════════════════════════════ -->
+<div id="page-about" class="page">
+  <nav class="lnav">
+    <div class="logo" onclick="go('landing')">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 8v8M8 12h8" stroke-linecap="round"/></svg></div>
+      MedConnect
+    </div>
+    <div class="lnav-links">
+      <a onclick="go('landing')">Home</a>
+      <a onclick="go('landing'); setTimeout(() => document.getElementById('lhow').scrollIntoView({behavior:'smooth'}), 50)">How It Works</a>
+      <a class="active">About Us</a>
+      <a onclick="go('pricing')">Pricing</a>
+    </div>
+    <div class="lnav-btns">
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" style="margin-right: 8px;">🌙</button>
+      <button class="btn-ghost" onclick="go('signin')">Log in</button>
+      <button class="btn-teal" onclick="go('signup')">Signup</button>
+    </div>
+  </nav>
+
+  <div style="padding: 140px 5% 80px; max-width: 1000px; margin: 0 auto; min-height: 80vh;">
+    <p class="section-tag">Our Story</p>
+    <h2 class="section-title">Healthcare should be a right, not a privilege.</h2>
+    
+    <div class="about-content" style="margin-top: 40px;">
+      <p class="lead-text">Founded in 2026, MedConnect started with a simple observation: the healthcare system is broken. Long wait times, lack of access to specialists, and complex scheduling have made getting care harder than it should be.</p>
+      
+      <div class="about-grid">
+        <div class="about-text">
+          <h3>Our Mission</h3>
+          <p>We are on a mission to democratize healthcare by bridging the gap between world-class doctors and patients, no matter where they live. By leveraging modern technology, we make high-quality healthcare instant, affordable, and accessible to everyone.</p>
+          
+          <h3>What We Do</h3>
+          <p>MedConnect provides a secure, HIPAA-compliant platform where patients can consult with verified doctors via HD video or audio calls within minutes. We handle everything from digital prescriptions to vitals tracking, creating a unified health ecosystem.</p>
+        </div>
+        <div class="about-image">
+          <div class="about-visual-box">
+             <div class="stats-mini">
+                <div class="stat-box"><h2>500+</h2><p>Verified Doctors</p></div>
+                <div class="stat-box"><h2>10K+</h2><p>Happy Patients</p></div>
+                <div class="stat-box"><h2>5m</h2><p>Avg. Wait Time</p></div>
+                <div class="stat-box"><h2>24/7</h2><p>Support Access</p></div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="color:white" onclick="go('landing')"><div class="logo-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 8v8M8 12h8" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div> MedConnect</div>
+        <p>Instant, affordable healthcare for everyone. Connecting patients with verified doctors across India and beyond.</p>
+      </div>
+      <div class="footer-col"><h5>Product</h5><a onclick="go('landing'); setTimeout(() => document.getElementById('lfeatures').scrollIntoView({behavior:'smooth'}), 50)">Features</a><a onclick="go('pricing')">Pricing</a><a onclick="go('signup')">For Doctors</a><a>Enterprise</a></div>
+      <div class="footer-col"><h5>Company</h5><a onclick="go('about')">About Us</a><a>Blog</a><a>Careers</a><a>Press</a></div>
+      <div class="footer-col"><h5>Legal</h5><a>Privacy Policy</a><a>Terms of Service</a><a>HIPAA Compliance</a><a>Contact</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MedConnect. Built for hackathon.</p>
+      <p>Made with ❤️ in India</p>
+    </div>
+  </footer>
 </div>
 
 <script src="js/app.js"></script>
